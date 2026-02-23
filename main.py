@@ -1,4 +1,6 @@
 import arcade
+import data
+from menus import SubMenuForUpgr, SubMenuSUpgrd
 from pyglet.graphics import Batch
 import math
 from arcade.gui import (
@@ -20,42 +22,6 @@ SCREEN_MIDDLE = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 SCREEN_TITLE = "Tycoon"
 CUBE = "sprites/cube.png"
 
-class SubMenu(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
-
-    def __init__(
-        self,
-    ):
-        super().__init__(size_hint=(0.5, 0.4))
-
-        frame = self.add(arcade.gui.UIAnchorLayout(width=300, height=400, size_hint=None,))
-        frame.with_padding(all=20)
-
-        frame.with_background(
-            texture=arcade.gui.NinePatchTexture(
-                left=7,
-                right=7,
-                bottom=7,
-                top=7,
-                texture=arcade.load_texture(
-                    "sprites/menu.png"
-                ),
-            )
-        )
-
-        back_button = arcade.gui.UIFlatButton(text="Back", width=250)
-        # The type of event listener we used earlier for the button will not work here.
-        back_button.on_click = self.on_click_back_button
-
-        # Internal widget layout to handle widgets in this class.
-        widget_layout = arcade.gui.UIBoxLayout(align="left", space_between=10)
-
-        widget_layout.add(back_button)
-
-        frame.add(child=widget_layout, anchor_x="center_x", anchor_y="top")
-
-    def on_click_back_button(self, event):
-        self.parent.remove(self)
-
 
 class RotatingSprite(arcade.Sprite):
     def rotate_around_point(self, point: arcade.math.Point, degrees: float):
@@ -75,33 +41,55 @@ class MyGUIWindow(arcade.Window):
         self.cube.position = SCREEN_MIDDLE
         self.cube_sprite_list = arcade.SpriteList()
         self.cube_sprite_list.append(self.cube)
+
         self.manager = UIManager()
         self.manager.enable()
+
         self.anchor_layout = UIAnchorLayout(y=-600)
         self.box_layout = UIBoxLayout(vertical=False, space_between=3)
-        self.buttons_list = []
-        self.score = 0
 
         self.setup_widgets()
         self.anchor_layout.add(self.box_layout)
         self.manager.add(self.anchor_layout)
 
+        self.text = None
+        self.text2 = None
+        self.text3 = None
+        self.text4 = None
+
     def setup_widgets(self):
         button1 = UIFlatButton(text="1", width=100, height=50, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button1)
-        button1.on_click = self.on_menu_click
+        button1.on_click = self.on_uprg_click
+
         button2 = UIFlatButton(text="2", width=100, height=50, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button2)
+        button2.on_click = self.on_uprgs_click
+
         button3 = UIFlatButton(text="3", width=100, height=50, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button3)
+
         button4 = UIFlatButton(text="4", width=100, height=50, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button4)
-
 
     def on_update(self, delta_time: float):
         self.cube_sprite_list.update()
         self.cube_move(delta_time)
-        self.text = arcade.Text(f"{self.score}", anchor_x="left", color=arcade.color.WHITE, font_size=17, x=50, y=1235)
+        self.textscore = arcade.Text(f"{data.score}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+                                     x=50,
+                                     y=1235)
+        self.textupg1 = arcade.Text(f"{data.upgr11}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+                                    x=50,
+                                    y=1135)
+        self.textupg2 = arcade.Text(f"{data.upgr12}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+                                    x=50,
+                                    y=1100)
+        self.textupg3 = arcade.Text(f"{data.upgr13}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+                                    x=50,
+                                    y=1065)
+        self.textupg4 = arcade.Text(f"{data.upgr14}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+                                    x=50,
+                                    y=1030)
 
     def setup(self):
         self.batch = Batch()
@@ -110,24 +98,29 @@ class MyGUIWindow(arcade.Window):
         self.clear()
         self.manager.draw()
         self.cube_sprite_list.draw()
-        self.text.draw()
-        arcade.draw_rect_outline(arcade.rect.XYWH(110, 1240, 200, 50), arcade.color.WHITE, 2)
+        self.textscore.draw()
+        self.textupg1.draw()
+        self.textupg2.draw()
+        self.textupg3.draw()
+        self.textupg4.draw()
+        arcade.draw_rect_outline(arcade.rect.XYWH(110, 1240, 200, 50), arcade.color.WHITE,
+                                 2)
 
     def on_mouse_press(self, x, y, button, key_modifiers):
         clicked_sprites = arcade.get_sprites_at_point((x, y), self.cube_sprite_list)
         if clicked_sprites:
-            self.score += 1
+            data.score += 1
 
     def cube_move(self, delta_time):
-        self.cube.angle += (1 + self.score) * delta_time / 100
+        self.cube.angle += (1 + data.score) * delta_time / 100
 
-    def on_menu_click(self, event):
-        menu = SubMenu()
-        self.manager.add(menu, layer=1000000000)
+    def on_uprg_click(self, event):
+        menu = SubMenuForUpgr(0.5, 0.4)
+        self.manager.add(menu, layer=1)
 
-
-
-
+    def on_uprgs_click(self, event):
+        menu2 = SubMenuSUpgrd(0.8, 0.4)
+        self.manager.add(menu2, layer=1)
 
 
 def setup_game(width=800, height=600, title="Tycoon"):
