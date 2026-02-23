@@ -1,5 +1,6 @@
 import arcade
 import data
+import time
 from menus import SubMenuForUpgr, SubMenuSUpgrd
 from pyglet.graphics import Batch
 import math
@@ -56,6 +57,9 @@ class MyGUIWindow(arcade.Window):
         self.text2 = None
         self.text3 = None
         self.text4 = None
+        self.total_time = 0.0
+        self.timer = 0
+        arcade.schedule(self.score_updater, 1.0)
 
     def setup_widgets(self):
         button1 = UIFlatButton(text="1", width=100, height=50, color=arcade.color.GHOST_WHITE)
@@ -78,21 +82,22 @@ class MyGUIWindow(arcade.Window):
         self.textscore = arcade.Text(f"{data.score}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                      x=50,
                                      y=1235)
-        self.textupg1 = arcade.Text(f"{data.upgr11}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+        self.textupg1 = arcade.Text(f"B {data.upgr11}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                     x=50,
                                     y=1135)
-        self.textupg2 = arcade.Text(f"{data.upgr12}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+        self.textupg2 = arcade.Text(f"KB {data.upgr12}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                     x=50,
                                     y=1100)
-        self.textupg3 = arcade.Text(f"{data.upgr13}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+        self.textupg3 = arcade.Text(f"MB {data.upgr13}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                     x=50,
                                     y=1065)
-        self.textupg4 = arcade.Text(f"{data.upgr14}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+        self.textupg4 = arcade.Text(f"GB {data.upgr14}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                     x=50,
                                     y=1030)
 
+
     def setup(self):
-        self.batch = Batch()
+        pass
 
     def on_draw(self):
         self.clear()
@@ -112,7 +117,10 @@ class MyGUIWindow(arcade.Window):
             data.score += 1
 
     def cube_move(self, delta_time):
-        self.cube.angle += (1 + data.score) * delta_time / 100
+        if data.score < 220000000:
+            self.cube.angle += (1 + data.score) * delta_time / 100000
+        else:
+            self.cube.angle += 2200 * delta_time
 
     def on_uprg_click(self, event):
         menu = SubMenuForUpgr(0.5, 0.4)
@@ -121,6 +129,12 @@ class MyGUIWindow(arcade.Window):
     def on_uprgs_click(self, event):
         menu2 = SubMenuSUpgrd(0.8, 0.4)
         self.manager.add(menu2, layer=1)
+
+    def score_updater(self, delta_time):
+        data.score += 1 * data.upgr11
+        data.score += 10 * data.upgr12
+        data.score += 100 * data.upgr13
+        data.score += 1000 * data.upgr14
 
 
 def setup_game(width=800, height=600, title="Tycoon"):

@@ -39,7 +39,8 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
             )
         )
         box_layout = UIBoxLayout(vertical=True, space_between=10)
-        text_layout = UIBoxLayout(vertical=True, space_between=60)
+        self.text_layout = UIBoxLayout(vertical=True, space_between=60)
+        self.cost_text_layout = UIBoxLayout(vertical=True, space_between=13)
 
         self.text1 = arcade.gui.UITextWidget(text=f"Upgrade 1 - B(1bytes/sec)                             ")
         button1 = arcade.gui.UIFlatButton(text="Buy", width=50)
@@ -56,15 +57,26 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         box_layout.add(button3)
         button3.on_click = self.on_click_upg13
 
-        self.text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 - TB(1000bytes/sec)                   ")
+        self.text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 - GB(1000bytes/sec)                   ")
         button4 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button4)
         button4.on_click = self.on_click_upg14
 
-        text_layout.add(self.text1)
-        text_layout.add(self.text2)
-        text_layout.add(self.text3)
-        text_layout.add(self.text4)
+        self.cost_text1 = arcade.gui.UITextWidget(text=f"Upgrade 1 costs - {data.upgr11costs} Bytes")
+        self.cost_text2 = arcade.gui.UITextWidget(text=f"Upgrade 2 costs - {data.upgr12costs} Bytes")
+        self.cost_text3 = arcade.gui.UITextWidget(text=f"Upgrade 3 costs - {data.upgr13costs} Bytes")
+        self.cost_text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 costs - {data.upgr14costs} Bytes")
+
+        self.cost_text_layout.add(self.cost_text1)
+        self.cost_text_layout.add(self.cost_text2)
+        self.cost_text_layout.add(self.cost_text3)
+        self.cost_text_layout.add(self.cost_text4)
+
+        self.text_layout.add(self.text1)
+        self.text_layout.add(self.text2)
+        self.text_layout.add(self.text3)
+        self.text_layout.add(self.text4)
+
 
         back_button = arcade.gui.UIFlatButton(text="⛌", width=50)
         back_button.on_click = self.on_click_back_button
@@ -74,7 +86,10 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
 
         frame.add(child=widget_layout, anchor_x="right", anchor_y="top")
         frame.add(child=box_layout, anchor_x="right", anchor_y="center")
-        frame.add(child=text_layout, anchor_x="center", anchor_y="center")
+        frame.add(child=self.text_layout, anchor_x="center", anchor_y="center")
+        frame.add(child=self.cost_text_layout, anchor_x="center", anchor_y="bottom")
+
+        arcade.schedule(self.on_updater, 1)
 
 
     def on_click_back_button(self, event):
@@ -82,6 +97,10 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
 
     def on_draw(self):
         self.clear()
+
+
+    def on_updater(self, dt):
+        pass
 
     def on_click_upg11(self, event):
         data.upgr11 += 1
