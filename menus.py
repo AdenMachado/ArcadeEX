@@ -89,7 +89,7 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         frame.add(child=self.text_layout, anchor_x="center", anchor_y="center")
         frame.add(child=self.cost_text_layout, anchor_x="center", anchor_y="bottom")
 
-        arcade.schedule(self.on_updater, 1)
+
 
 
     def on_click_back_button(self, event):
@@ -99,21 +99,43 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         self.clear()
 
 
+
     def on_updater(self, dt):
-        pass
+        self.cost_text1.text = f"Upgrade 1 costs - {data.upgr11costs} Bytes"
+        self.cost_text2.text = f"Upgrade 2 costs - {data.upgr12costs} Bytes"
+        self.cost_text3.text = f"Upgrade 3 costs - {data.upgr13costs} Bytes"
+        self.cost_text4.text = f"Upgrade 4 costs - {data.upgr14costs} Bytes"
 
     def on_click_upg11(self, event):
-        data.upgr11 += 1
+        self.on_updater(self)
+        if data.score >= data.upgr11costs:
+            data.upgr11 += 1
+            data.score -= data.upgr11costs
+            data.upgr11costs += 1 * 60 * data.upgr11
 
     def on_click_upg12(self, event):
+        self.on_updater(self)
         data.upgr12 += 1
+        if data.score >= data.upgr12costs:
+            data.upgr11 += 1
+            data.score -= data.upgr12costs
+            data.upgr12costs += 10 * 60 * data.upgr14
 
     def on_click_upg13(self, event):
+        self.on_updater(self)
         data.upgr13 += 1
+        if data.score >= data.upgr13costs:
+            data.upgr13 += 1
+            data.score -= data.upgr13costs
+            data.upgr13costs += 100 * 60 * data.upgr14
 
     def on_click_upg14(self, event):
+        self.on_updater(self)
         data.upgr14 += 1
-
+        if data.score >= data.upgr14costs:
+            data.upgr14 += 1
+            data.score -= data.upgr14costs
+            data.upgr14costs += 1 * 60 * data.upgr14
 
 class SubMenuSUpgrd(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
 

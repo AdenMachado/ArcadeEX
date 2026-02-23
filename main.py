@@ -1,5 +1,6 @@
 import arcade
 import data
+from pyglet.graphics import Batch
 import time
 from menus import SubMenuForUpgr, SubMenuSUpgrd
 from pyglet.graphics import Batch
@@ -47,7 +48,7 @@ class MyGUIWindow(arcade.Window):
         self.manager.enable()
 
         self.anchor_layout = UIAnchorLayout(y=-600)
-        self.box_layout = UIBoxLayout(vertical=False, space_between=3)
+        self.box_layout = UIBoxLayout(vertical=False, space_between=6)
 
         self.setup_widgets()
         self.anchor_layout.add(self.box_layout)
@@ -60,20 +61,21 @@ class MyGUIWindow(arcade.Window):
         self.total_time = 0.0
         self.timer = 0
         arcade.schedule(self.score_updater, 1.0)
+        self.batch = Batch()
 
     def setup_widgets(self):
-        button1 = UIFlatButton(text="1", width=100, height=50, color=arcade.color.GHOST_WHITE)
+        button1 = UIFlatButton(text="Upgrades", width=150, height=80, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button1)
         button1.on_click = self.on_uprg_click
 
-        button2 = UIFlatButton(text="2", width=100, height=50, color=arcade.color.GHOST_WHITE)
+        button2 = UIFlatButton(text="Click upg.", width=150, height=80, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button2)
         button2.on_click = self.on_uprgs_click
 
-        button3 = UIFlatButton(text="3", width=100, height=50, color=arcade.color.GHOST_WHITE)
+        button3 = UIFlatButton(text="Miners", width=150, height=80, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button3)
 
-        button4 = UIFlatButton(text="4", width=100, height=50, color=arcade.color.GHOST_WHITE)
+        button4 = UIFlatButton(text="Statistic", width=150, height=80, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button4)
 
     def on_update(self, delta_time: float):
@@ -81,35 +83,36 @@ class MyGUIWindow(arcade.Window):
         self.cube_move(delta_time)
         self.textscore = arcade.Text(f"{data.score}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                      x=50,
-                                     y=1235)
+                                     y=1235,
+                                     batch=self.batch)
         self.textupg1 = arcade.Text(f"B {data.upgr11}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                     x=50,
-                                    y=1135)
+                                    y=1135,
+                                    batch=self.batch)
         self.textupg2 = arcade.Text(f"KB {data.upgr12}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                     x=50,
-                                    y=1100)
+                                    y=1100,
+                                    batch=self.batch)
         self.textupg3 = arcade.Text(f"MB {data.upgr13}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                     x=50,
-                                    y=1065)
+                                    y=1065,
+                                    batch=self.batch)
         self.textupg4 = arcade.Text(f"GB {data.upgr14}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                     x=50,
-                                    y=1030)
+                                    y=1030,
+                                    batch=self.batch)
 
 
     def setup(self):
-        pass
+        self.batch = Batch()
 
     def on_draw(self):
         self.clear()
         self.manager.draw()
         self.cube_sprite_list.draw()
-        self.textscore.draw()
-        self.textupg1.draw()
-        self.textupg2.draw()
-        self.textupg3.draw()
-        self.textupg4.draw()
         arcade.draw_rect_outline(arcade.rect.XYWH(110, 1240, 200, 50), arcade.color.WHITE,
                                  2)
+        self.batch.draw()
 
     def on_mouse_press(self, x, y, button, key_modifiers):
         clicked_sprites = arcade.get_sprites_at_point((x, y), self.cube_sprite_list)
