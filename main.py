@@ -2,7 +2,7 @@ import arcade
 import data
 from pyglet.graphics import Batch
 import time
-from menus import SubMenuForUpgr, SubMenuSUpgrd
+from menus import SubMenuForUpgr, SubMenuSUpgrd, SubMenuMiners, SubMenuStatic
 from pyglet.graphics import Batch
 import math
 from arcade.gui import (
@@ -74,9 +74,11 @@ class MyGUIWindow(arcade.Window):
 
         button3 = UIFlatButton(text="Miners", width=150, height=80, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button3)
+        button3.on_click = self.on_miners
 
         button4 = UIFlatButton(text="Statistic", width=150, height=80, color=arcade.color.GHOST_WHITE)
         self.box_layout.add(button4)
+        button4.on_click = self.on_statistics
 
     def on_update(self, delta_time: float):
         self.cube_sprite_list.update()
@@ -117,7 +119,7 @@ class MyGUIWindow(arcade.Window):
     def on_mouse_press(self, x, y, button, key_modifiers):
         clicked_sprites = arcade.get_sprites_at_point((x, y), self.cube_sprite_list)
         if clicked_sprites:
-            data.score += 1
+            data.score += 1 + (1 * data.upgr21) + (1 * data.upgr22) + (1 * data.upgr23) + (1 * data.upgr24)
 
     def cube_move(self, delta_time):
         if data.score < 220000000:
@@ -132,6 +134,14 @@ class MyGUIWindow(arcade.Window):
     def on_uprgs_click(self, event):
         menu2 = SubMenuSUpgrd(0.8, 0.4)
         self.manager.add(menu2, layer=1)
+
+    def on_miners(self, event):
+        menu3 = SubMenuMiners(1.2, 0.4)
+        self.manager.add(menu3, layer=1)
+
+    def on_statistics(self, event):
+        menu4 = SubMenuStatic(1.6, 0.4)
+        self.manager.add(menu4, layer=1)
 
     def score_updater(self, delta_time):
         data.score += 1 * data.upgr11

@@ -1,4 +1,3 @@
-from gc import callbacks
 
 import arcade
 import data
@@ -135,7 +134,6 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
             data.upgr14costs += 1 * 60 * data.upgr14
 
 
-
 class SubMenuSUpgrd(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
 
     def __init__(
@@ -251,3 +249,161 @@ class SubMenuSUpgrd(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
             data.upgr24 += 1
             data.score -= data.upgr24costs
             print("Succesful")
+
+
+class SubMenuMiners(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
+    def __init__(
+            self,
+            posx,
+            posy,
+    ):
+        super().__init__(size_hint=(posx, posy))
+
+        self.manager = arcade.gui.UIManager()
+        self.manager.enable()
+        frame = self.add(arcade.gui.UIAnchorLayout(width=300, height=400, size_hint=None, ))
+        frame.with_padding(all=20)
+
+        frame.with_background(
+            texture=arcade.gui.NinePatchTexture(
+                left=7,
+                right=7,
+                bottom=7,
+                top=7,
+                texture=arcade.load_texture(
+                    "sprites/menu.png"
+                ),
+            )
+        )
+        self.v_box = arcade.gui.UIBoxLayout()
+        box_layout = UIBoxLayout(vertical=True, space_between=15)
+        self.text_layout = UIBoxLayout(vertical=True, space_between=60)
+        self.cost_text_layout = UIBoxLayout(vertical=True, space_between=13)
+
+        button1 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        box_layout.add(button1)
+        button1.on_click = self.on_click_upg21
+
+        button2 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        box_layout.add(button2)
+        button2.on_click = self.on_click_upg22
+
+        button3 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        box_layout.add(button3)
+        button3.on_click = self.on_click_upg23
+
+        button4 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        box_layout.add(button4)
+        button4.on_click = self.on_click_upg24
+
+        back_button = arcade.gui.UIFlatButton(text="⛌", width=50)
+        back_button.on_click = self.on_click_back_button
+
+        widget_layout = arcade.gui.UIBoxLayout(align="left", space_between=10)
+        widget_layout.add(back_button)
+
+        frame.add(child=widget_layout, anchor_x="right", anchor_y="top")
+        frame.add(child=box_layout, anchor_x="right", anchor_y="center")
+        frame.add(child=self.text_layout, anchor_x="center", anchor_y="center")
+        frame.add(child=self.cost_text_layout, anchor_x="center", anchor_y="bottom")
+
+    def on_click_back_button(self, event):
+        self.parent.remove(self)
+
+    def on_draw(self):
+        self.clear()
+        self.manager.draw()
+
+    def on_updater(self, dt):
+        pass
+
+    def on_click_upg21(self, event):
+        pass
+
+    def on_click_upg22(self, event):
+        pass
+
+    def on_click_upg23(self, event):
+        pass
+
+    def on_click_upg24(self, event):
+        pass
+
+
+class SubMenuStatic(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
+    def __init__(
+            self,
+            posx,
+            posy,
+    ):
+        super().__init__(size_hint=(posx, posy))
+
+        self.manager = arcade.gui.UIManager()
+        self.manager.enable()
+        frame = self.add(arcade.gui.UIAnchorLayout(width=300, height=400, size_hint=None, ))
+        frame.with_padding(all=20)
+
+        frame.with_background(
+            texture=arcade.gui.NinePatchTexture(
+                left=7,
+                right=7,
+                bottom=7,
+                top=7,
+                texture=arcade.load_texture(
+                    "sprites/menu.png"
+                ),
+            )
+        )
+        self.v_box = arcade.gui.UIBoxLayout()
+        box_layout = UIBoxLayout(vertical=True, space_between=15)
+        self.text_layout = UIBoxLayout(vertical=True, space_between=60)
+        self.cost_text_layout = UIBoxLayout(vertical=True, space_between=13)
+
+        button1 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        box_layout.add(button1)
+        button1.on_click = self.on_click_upg21
+
+        button2 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        box_layout.add(button2)
+        button2.on_click = self.on_click_upg22
+
+        button3 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        box_layout.add(button3)
+        button3.on_click = self.on_click_upg23
+
+        button4 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        box_layout.add(button4)
+        button4.on_click = self.on_click_upg24
+
+        back_button = arcade.gui.UIFlatButton(text="⛌", width=50)
+        back_button.on_click = self.on_click_back_button
+
+        widget_layout = arcade.gui.UIBoxLayout(align="left", space_between=10)
+        widget_layout.add(back_button)
+
+        frame.add(child=widget_layout, anchor_x="right", anchor_y="top")
+        frame.add(child=box_layout, anchor_x="right", anchor_y="center")
+        frame.add(child=self.text_layout, anchor_x="center", anchor_y="center")
+        frame.add(child=self.cost_text_layout, anchor_x="center", anchor_y="bottom")
+
+    def on_click_back_button(self, event):
+        self.parent.remove(self)
+
+    def on_draw(self):
+        self.clear()
+        self.manager.draw()
+
+    def on_updater(self, dt):
+        pass
+
+    def on_click_upg21(self, event):
+        pass
+
+    def on_click_upg22(self, event):
+        pass
+
+    def on_click_upg23(self, event):
+        pass
+
+    def on_click_upg24(self, event):
+        pass
