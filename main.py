@@ -1,5 +1,6 @@
 import arcade
 import data
+from numerize import numerize
 from pyglet.graphics import Batch
 import time
 from menus import SubMenuForUpgr, SubMenuSUpgrd, SubMenuMiners, SubMenuStatic
@@ -83,7 +84,7 @@ class MyGUIWindow(arcade.Window):
     def on_update(self, delta_time: float):
         self.cube_sprite_list.update()
         self.cube_move(delta_time)
-        self.textscore = arcade.Text(f"{data.score}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+        self.textscore = arcade.Text(f"{convector(data.score)}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
                                      x=50,
                                      y=1235,
                                      batch=self.batch)
@@ -120,6 +121,7 @@ class MyGUIWindow(arcade.Window):
         clicked_sprites = arcade.get_sprites_at_point((x, y), self.cube_sprite_list)
         if clicked_sprites:
             data.score += 1 + (1 * data.upgr21) + (1 * data.upgr22) + (1 * data.upgr23) + (1 * data.upgr24)
+            data.clicks += 1
 
     def cube_move(self, delta_time):
         if data.score < 220000000:
@@ -140,7 +142,7 @@ class MyGUIWindow(arcade.Window):
         self.manager.add(menu3, layer=1)
 
     def on_statistics(self, event):
-        menu4 = SubMenuStatic(1.6, 0.4)
+        menu4 = SubMenuStatic(1.5, 0.4)
         self.manager.add(menu4, layer=1)
 
     def score_updater(self, delta_time):
@@ -149,6 +151,15 @@ class MyGUIWindow(arcade.Window):
         data.score += 100 * data.upgr13
         data.score += 1000 * data.upgr14
 
+def convector(num):
+    num = float('{:.3g}'.format(num))
+    magnitude = 0
+    while abs(num) >= 1000:
+        magnitude += 1
+        num /= 1000.0
+    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'),
+                         ['', 'K', 'M', 'B', 'T', "qd", "qt", "st", "sp", "oc", "nn", "dc", "un", "dd", "td"]
+                         [magnitude])
 
 def setup_game(width=800, height=600, title="Tycoon"):
     game = MyGUIWindow(width, height, title)

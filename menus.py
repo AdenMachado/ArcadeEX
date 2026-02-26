@@ -355,25 +355,7 @@ class SubMenuStatic(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
             )
         )
         self.v_box = arcade.gui.UIBoxLayout()
-        box_layout = UIBoxLayout(vertical=True, space_between=15)
         self.text_layout = UIBoxLayout(vertical=True, space_between=60)
-        self.cost_text_layout = UIBoxLayout(vertical=True, space_between=13)
-
-        button1 = arcade.gui.UIFlatButton(text="Buy", width=250)
-        box_layout.add(button1)
-        button1.on_click = self.on_click_upg21
-
-        button2 = arcade.gui.UIFlatButton(text="Buy", width=250)
-        box_layout.add(button2)
-        button2.on_click = self.on_click_upg22
-
-        button3 = arcade.gui.UIFlatButton(text="Buy", width=250)
-        box_layout.add(button3)
-        button3.on_click = self.on_click_upg23
-
-        button4 = arcade.gui.UIFlatButton(text="Buy", width=250)
-        box_layout.add(button4)
-        button4.on_click = self.on_click_upg24
 
         back_button = arcade.gui.UIFlatButton(text="⛌", width=50)
         back_button.on_click = self.on_click_back_button
@@ -381,10 +363,20 @@ class SubMenuStatic(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         widget_layout = arcade.gui.UIBoxLayout(align="left", space_between=10)
         widget_layout.add(back_button)
 
+        self.text1 = UITextWidget(text=f"Total clicks: {data.clicks}")
+        self.text2 = UITextWidget(text=f"Total bytes spent: {data.spentmoney}")
+        self.text3 = UITextWidget(text=f"Total miners purchased: {data.upgr21 + data.upgr22 + data.upgr23 
+                                                                  + data.upgr24}")
+        self.text4 = UITextWidget(text=f"Total upgrades purchased: {data.upgr11 + data.upgr12 + data.upgr13 
+                                                                    + data.upgr14}")
+
+        self.text_layout.add(self.text1)
+        self.text_layout.add(self.text2)
+        self.text_layout.add(self.text3)
+        self.text_layout.add(self.text4)
+
         frame.add(child=widget_layout, anchor_x="right", anchor_y="top")
-        frame.add(child=box_layout, anchor_x="right", anchor_y="center")
         frame.add(child=self.text_layout, anchor_x="center", anchor_y="center")
-        frame.add(child=self.cost_text_layout, anchor_x="center", anchor_y="bottom")
 
     def on_click_back_button(self, event):
         self.parent.remove(self)
@@ -393,17 +385,5 @@ class SubMenuStatic(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         self.clear()
         self.manager.draw()
 
-    def on_updater(self, dt):
-        pass
 
-    def on_click_upg21(self, event):
-        pass
 
-    def on_click_upg22(self, event):
-        pass
-
-    def on_click_upg23(self, event):
-        pass
-
-    def on_click_upg24(self, event):
-        pass
