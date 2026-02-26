@@ -13,7 +13,6 @@ from arcade.gui import (
     UIManager,
     UIBoxLayout,
     UITextWidget,
-
 )
 
 
@@ -51,25 +50,25 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         button1 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button1)
         button1.on_click = self.on_click_upg11
-        self.text2 = arcade.gui.UITextWidget(text=f"Upgrade 2 - KB(10bytes/sec)                        ")
+        self.text2 = arcade.gui.UITextWidget(text=f"Upgrade 2 - KB(6bytes/sec)                        ")
         button2 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button2)
         button2.on_click = self.on_click_upg12
 
-        self.text3 = arcade.gui.UITextWidget(text=f"Upgrade 3 - MB(100bytes/sec)                    ")
+        self.text3 = arcade.gui.UITextWidget(text=f"Upgrade 3 - MB(40bytes/sec)                    ")
         button3 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button3)
         button3.on_click = self.on_click_upg13
 
-        self.text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 - GB(1000bytes/sec)                   ")
+        self.text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 - GB(300bytes/sec)                   ")
         button4 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button4)
         button4.on_click = self.on_click_upg14
 
-        self.cost_text1 = arcade.gui.UITextWidget(text=f"Upgrade 1 costs - {data.upgr11costs} Bytes")
-        self.cost_text2 = arcade.gui.UITextWidget(text=f"Upgrade 2 costs - {data.upgr12costs} Bytes")
-        self.cost_text3 = arcade.gui.UITextWidget(text=f"Upgrade 3 costs - {data.upgr13costs} Bytes")
-        self.cost_text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 costs - {data.upgr14costs} Bytes")
+        self.cost_text1 = arcade.gui.UITextWidget(text=f"Upgrade 1 costs - {convector(data.upgr11costs)} Bytes")
+        self.cost_text2 = arcade.gui.UITextWidget(text=f"Upgrade 2 costs - {convector(data.upgr12costs)} Bytes")
+        self.cost_text3 = arcade.gui.UITextWidget(text=f"Upgrade 3 costs - {convector(data.upgr13costs)} Bytes")
+        self.cost_text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 costs - {convector(data.upgr14costs)} Bytes")
 
         self.cost_text_layout.add(self.cost_text1)
         self.cost_text_layout.add(self.cost_text2)
@@ -100,38 +99,39 @@ class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         self.manager.draw()
 
     def on_updater(self, dt):
-        self.cost_text1.text = f"Upgrade 1 costs - {data.upgr11costs} Bytes"
-        self.cost_text2.text = f"Upgrade 2 costs - {data.upgr12costs} Bytes"
-        self.cost_text3.text = f"Upgrade 3 costs - {data.upgr13costs} Bytes"
-        self.cost_text4.text = f"Upgrade 4 costs - {data.upgr14costs} Bytes"
+        self.cost_text1.text = f"Upgrade 1 costs - {convector(data.upgr11costs)} Bytes"
+        self.cost_text2.text = f"Upgrade 2 costs - {convector(data.upgr12costs)} Bytes"
+        self.cost_text3.text = f"Upgrade 3 costs - {convector(data.upgr13costs)} Bytes"
+        self.cost_text4.text = f"Upgrade 4 costs - {convector(data.upgr14costs)} Bytes"
 
     def on_click_upg11(self, event):
-        self.on_updater(self)
         if data.score >= data.upgr11costs:
             data.upgr11 += 1
             data.score -= data.upgr11costs
-            data.upgr11costs += 1 * 60 * data.upgr11
+            data.upgr11costs = 20 * (1 + data.upgr11)
+        self.on_updater(self)
 
     def on_click_upg12(self, event):
-        self.on_updater(self)
         if data.score >= data.upgr12costs:
             data.upgr12 += 1
             data.score -= data.upgr12costs
-            data.upgr12costs += 10 * 60 * data.upgr12
+            data.upgr12costs = 150 * (1 + data.upgr12)
+        self.on_updater(self)
+
 
     def on_click_upg13(self, event):
-        self.on_updater(self)
+
         if data.score >= data.upgr13costs:
             data.upgr13 += 1
             data.score -= data.upgr13costs
-            data.upgr13costs += 100 * 60 * data.upgr13
-
-    def on_click_upg14(self, event):
+            data.upgr13costs = 1200 * (1 + data.upgr13)
         self.on_updater(self)
+    def on_click_upg14(self, event):
         if data.score >= data.upgr14costs:
             data.upgr14 += 1
             data.score -= data.upgr14costs
-            data.upgr14costs += 1 * 60 * data.upgr14
+            data.upgr14costs = 10_000 * (1 + data.upgr14)
+        self.on_updater(self)
 
 
 class SubMenuSUpgrd(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
@@ -164,29 +164,29 @@ class SubMenuSUpgrd(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         self.text_layout = UIBoxLayout(vertical=True, space_between=60)
         self.cost_text_layout = UIBoxLayout(vertical=True, space_between=13)
 
-        self.text1 = arcade.gui.UITextWidget(text=f"Click upgr - Stone(+1bytes/click)                      ")
+        self.text1 = arcade.gui.UITextWidget(text=f"Stone click(+2bytes/click)                      ")
         button1 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button1)
         button1.on_click = self.on_click_upg21
-        self.text2 = arcade.gui.UITextWidget(text=f"Click upgr - Bronze(+5bytes/click)                    ")
+        self.text2 = arcade.gui.UITextWidget(text=f"Bronze click(+5bytes/click)                    ")
         button2 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button2)
         button2.on_click = self.on_click_upg22
 
-        self.text3 = arcade.gui.UITextWidget(text=f"Click upgr - Silver(+10bytes/click)                    ")
+        self.text3 = arcade.gui.UITextWidget(text=f"Silver click(+12bytes/click)                    ")
         button3 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button3)
         button3.on_click = self.on_click_upg23
 
-        self.text4 = arcade.gui.UITextWidget(text=f"Click upgr - Gold(+100bytes/click)                   ")
+        self.text4 = arcade.gui.UITextWidget(text=f"Gold click(+30bytes/click)                   ")
         button4 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button4)
         button4.on_click = self.on_click_upg24
 
-        self.cost_text1 = arcade.gui.UITextWidget(text=f"Upgrade 1 costs - {data.upgr21costs} Bytes")
-        self.cost_text2 = arcade.gui.UITextWidget(text=f"Upgrade 2 costs - {data.upgr22costs} Bytes")
-        self.cost_text3 = arcade.gui.UITextWidget(text=f"Upgrade 3 costs - {data.upgr23costs} Bytes")
-        self.cost_text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 costs - {data.upgr24costs} Bytes")
+        self.cost_text1 = arcade.gui.UITextWidget(text=f"Upgrade 1 costs - {convector(data.upgr21costs)} Bytes")
+        self.cost_text2 = arcade.gui.UITextWidget(text=f"Upgrade 2 costs - {convector(data.upgr22costs)} Bytes")
+        self.cost_text3 = arcade.gui.UITextWidget(text=f"Upgrade 3 costs - {convector(data.upgr23costs)} Bytes")
+        self.cost_text4 = arcade.gui.UITextWidget(text=f"Upgrade 4 costs - {convector(data.upgr24costs)} Bytes")
 
         self.cost_text_layout.add(self.cost_text1)
         self.cost_text_layout.add(self.cost_text2)
@@ -217,38 +217,38 @@ class SubMenuSUpgrd(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         self.manager.draw()
 
     def on_updater(self, dt):
-        self.cost_text1.text = f"Upgrade 1 costs - {data.upgr21costs} Bytes"
-        self.cost_text2.text = f"Upgrade 2 costs - {data.upgr22costs} Bytes"
-        self.cost_text3.text = f"Upgrade 3 costs - {data.upgr23costs} Bytes"
-        self.cost_text4.text = f"Upgrade 4 costs - {data.upgr24costs} Bytes"
+        self.cost_text1.text = f"Upgrade 1 costs - {convector(data.upgr21costs)} Bytes"
+        self.cost_text2.text = f"Upgrade 2 costs - {convector(data.upgr22costs)} Bytes"
+        self.cost_text3.text = f"Upgrade 3 costs - {convector(data.upgr23costs)} Bytes"
+        self.cost_text4.text = f"Upgrade 4 costs - {convector(data.upgr24costs)} Bytes"
 
     def on_click_upg21(self, event):
-        self.on_updater(self)
         if data.score >= data.upgr21costs:
             data.upgr21 += 1
             data.score -= data.upgr21costs
-            print("Succesful")
+            data.upgr21costs = 15 * (1 + data.upgr21 ** 2)
+        self.on_updater(self)
 
     def on_click_upg22(self, event):
-        self.on_updater(self)
         if data.score >= data.upgr22costs:
             data.upgr22 += 1
             data.score -= data.upgr22costs
-            print("Succesful")
+            data.upgr22costs = 60 * (1 + data.upgr22 ** 2)
+        self.on_updater(self)
 
     def on_click_upg23(self, event):
-        self.on_updater(self)
         if data.score >= data.upgr23costs:
             data.upgr23 += 1
             data.score -= data.upgr23costs
-            print("Succesful")
+            data.upgr23costs = 250 * (1 + data.upgr23 ** 2)
+        self.on_updater(self)
 
     def on_click_upg24(self, event):
-        self.on_updater(self)
         if data.score >= data.upgr24costs:
             data.upgr24 += 1
             data.score -= data.upgr24costs
-            print("Succesful")
+            data.upgr24costs = 1000 * (1 + data.upgr24 ** 2)
+        self.on_updater(self)
 
 
 class SubMenuMiners(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
@@ -280,21 +280,24 @@ class SubMenuMiners(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         self.text_layout = UIBoxLayout(vertical=True, space_between=60)
         self.cost_text_layout = UIBoxLayout(vertical=True, space_between=13)
 
-        button1 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        text = UITextWidget(text=f"                                 You have clicks: {data.currentclicks}")
+        self.text_layout.add(text)
+
+        button1 = arcade.gui.UIFlatButton(text="Buy red color", width=250)
         box_layout.add(button1)
-        button1.on_click = self.on_click_upg21
+        button1.on_click = self.buy_red
 
-        button2 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        button2 = arcade.gui.UIFlatButton(text="Buy green color", width=250)
         box_layout.add(button2)
-        button2.on_click = self.on_click_upg22
+        button2.on_click = self.buy_green
 
-        button3 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        button3 = arcade.gui.UIFlatButton(text="Buy blue color", width=250)
         box_layout.add(button3)
-        button3.on_click = self.on_click_upg23
+        button3.on_click = self.buy_blue
 
-        button4 = arcade.gui.UIFlatButton(text="Buy", width=250)
+        button4 = arcade.gui.UIFlatButton(text="Buy white color", width=250)
         box_layout.add(button4)
-        button4.on_click = self.on_click_upg24
+        button4.on_click = self.buy_white
 
         back_button = arcade.gui.UIFlatButton(text="⛌", width=50)
         back_button.on_click = self.on_click_back_button
@@ -304,7 +307,7 @@ class SubMenuMiners(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
 
         frame.add(child=widget_layout, anchor_x="right", anchor_y="top")
         frame.add(child=box_layout, anchor_x="right", anchor_y="center")
-        frame.add(child=self.text_layout, anchor_x="center", anchor_y="center")
+        frame.add(child=self.text_layout, anchor_x="left", anchor_y="top")
         frame.add(child=self.cost_text_layout, anchor_x="center", anchor_y="bottom")
 
     def on_click_back_button(self, event):
@@ -317,16 +320,16 @@ class SubMenuMiners(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
     def on_updater(self, dt):
         pass
 
-    def on_click_upg21(self, event):
+    def buy_red(self, event):
         pass
 
-    def on_click_upg22(self, event):
+    def buy_green(self, event):
         pass
 
-    def on_click_upg23(self, event):
+    def buy_blue(self, event):
         pass
 
-    def on_click_upg24(self, event):
+    def buy_white(self, event):
         pass
 
 
@@ -384,6 +387,17 @@ class SubMenuStatic(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
     def on_draw(self):
         self.clear()
         self.manager.draw()
+
+
+def convector(num):
+    num = float('{:.3g}'.format(num))
+    magnitude = 0
+    while abs(num) >= 1000:
+        magnitude += 1
+        num /= 1000.0
+    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'),
+                         ['', 'K', 'M', 'B', 'T', "qd", "qt", "st", "sp", "oc", "nn", "dc", "un", "dd", "td"]
+                         [magnitude])
 
 
 

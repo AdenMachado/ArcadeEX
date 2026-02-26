@@ -23,7 +23,6 @@ SCREEN_WIDTH = 720
 SCREEN_HEIGHT = 1300
 SCREEN_MIDDLE = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 SCREEN_TITLE = "Tycoon"
-CUBE = "sprites/cube.png"
 
 
 class RotatingSprite(arcade.Sprite):
@@ -40,10 +39,18 @@ class MyGUIWindow(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
-        self.cube = arcade.Sprite(CUBE)
+        self.cube = arcade.Sprite("sprites/cube.png")
         self.cube.position = SCREEN_MIDDLE
+        self.score_menu = arcade.Sprite("sprites/menu_score.png")
+        self.score_menu.position = (110, 1240)
+        self.upgrades_menu = arcade.Sprite("sprites/menu_upgrades.png")
+        self.upgrades_menu.position = (350, 1215)
         self.cube_sprite_list = arcade.SpriteList()
+        self.sprite_list = arcade.SpriteList()
+        self.sprite_list.append(self.score_menu)
+        self.sprite_list.append(self.upgrades_menu)
         self.cube_sprite_list.append(self.cube)
+
 
         self.manager = UIManager()
         self.manager.enable()
@@ -84,25 +91,25 @@ class MyGUIWindow(arcade.Window):
     def on_update(self, delta_time: float):
         self.cube_sprite_list.update()
         self.cube_move(delta_time)
-        self.textscore = arcade.Text(f"{convector(data.score)}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
+        self.textscore = arcade.Text(f"{convector(data.score)}", anchor_x="left", color=arcade.color.WHITE, font_size=18,
                                      x=50,
                                      y=1235,
                                      batch=self.batch)
-        self.textupg1 = arcade.Text(f"B {data.upgr11}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
-                                    x=50,
-                                    y=1135,
+        self.textupg1 = arcade.Text(f"B: {data.upgr11}", anchor_x="left", color=arcade.color.WHITE, font_size=18,
+                                    x=260,
+                                    y=1230,
                                     batch=self.batch)
-        self.textupg2 = arcade.Text(f"KB {data.upgr12}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
-                                    x=50,
-                                    y=1100,
+        self.textupg2 = arcade.Text(f"KB: {data.upgr12}", anchor_x="left", color=arcade.color.WHITE, font_size=18,
+                                    x=260,
+                                    y=1167,
                                     batch=self.batch)
-        self.textupg3 = arcade.Text(f"MB {data.upgr13}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
-                                    x=50,
-                                    y=1065,
+        self.textupg3 = arcade.Text(f"MB: {data.upgr13}", anchor_x="left", color=arcade.color.WHITE, font_size=18,
+                                    x=370,
+                                    y=1230,
                                     batch=self.batch)
-        self.textupg4 = arcade.Text(f"GB {data.upgr14}", anchor_x="left", color=arcade.color.WHITE, font_size=17,
-                                    x=50,
-                                    y=1030,
+        self.textupg4 = arcade.Text(f"GB: {data.upgr14}", anchor_x="left", color=arcade.color.WHITE, font_size=18,
+                                    x=370,
+                                    y=1167,
                                     batch=self.batch)
 
 
@@ -113,8 +120,7 @@ class MyGUIWindow(arcade.Window):
         self.clear()
         self.manager.draw()
         self.cube_sprite_list.draw()
-        arcade.draw_rect_outline(arcade.rect.XYWH(110, 1240, 200, 50), arcade.color.WHITE,
-                                 2)
+        self.sprite_list.draw()
         self.batch.draw()
 
     def on_mouse_press(self, x, y, button, key_modifiers):
@@ -122,6 +128,7 @@ class MyGUIWindow(arcade.Window):
         if clicked_sprites:
             data.score += 1 + (1 * data.upgr21) + (1 * data.upgr22) + (1 * data.upgr23) + (1 * data.upgr24)
             data.clicks += 1
+            data.currentclicks += 1
 
     def cube_move(self, delta_time):
         if data.score < 220000000:
@@ -147,9 +154,9 @@ class MyGUIWindow(arcade.Window):
 
     def score_updater(self, delta_time):
         data.score += 1 * data.upgr11
-        data.score += 10 * data.upgr12
-        data.score += 100 * data.upgr13
-        data.score += 1000 * data.upgr14
+        data.score += 6 * data.upgr12
+        data.score += 40 * data.upgr13
+        data.score += 300 * data.upgr14
 
 def convector(num):
     num = float('{:.3g}'.format(num))
