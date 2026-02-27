@@ -180,7 +180,7 @@ class SubMenuSUpgrd(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         box_layout.add(button3)
         button3.on_click = self.on_click_upg23
 
-        self.text4 = arcade.gui.UITextWidget(text=f"Gold click(+30bytes/click)                   ")
+        self.text4 = arcade.gui.UITextWidget(text=f"Gold click(+30bytes/click)                    ")
         button4 = arcade.gui.UIFlatButton(text="Buy", width=50)
         box_layout.add(button4)
         button4.on_click = self.on_click_upg24
