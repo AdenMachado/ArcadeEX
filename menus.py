@@ -3,14 +3,6 @@ import arcade
 import data
 from arcade.gui import (
     UIAnchorLayout,
-    UIFlatButton,
-    UIGridLayout,
-    UIImage,
-    UIOnChangeEvent,
-    UITextureButton,
-    UITextureToggle,
-    UIView,
-    UIManager,
     UIBoxLayout,
     UITextWidget,
     UITextArea
@@ -19,6 +11,7 @@ from arcade.gui import (
 font_path = os.path.join("Assets", "Fonts", "VMVSegaGenesis-Regular.otf")
 font_name = "VMV Sega Genesis"
 click_button_sound = arcade.load_sound("Assets/Sound/click_button.wav")
+
 
 class SubMenuForUpgr(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
 
@@ -209,7 +202,7 @@ class SubMenuSUpgrd(arcade.gui.UIMouseFilterMixin, arcade.gui.UIAnchorLayout):
         self.text_layout.add(self.text3)
         self.text_layout.add(self.text4)
 
-        back_button = arcade.gui.UIFlatButton(text="⛌", width=50,)
+        back_button = arcade.gui.UIFlatButton(text="⛌", width=50, )
         back_button.on_click = self.on_click_back_button
 
         widget_layout = arcade.gui.UIBoxLayout(align="left", space_between=10)

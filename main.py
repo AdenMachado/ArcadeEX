@@ -4,16 +4,10 @@ import random
 import os
 from menus import SubMenuForUpgr, SubMenuSUpgrd, SubMenuMiners, SubMenuStatic, SubMenuTutor
 from pyglet.graphics import Batch
-from arcade.particles import FadeParticle, Emitter, EmitBurst, EmitInterval, EmitMaintainCount, Particle
+from arcade.particles import FadeParticle, Emitter, EmitBurst
 from arcade.gui import (
     UIAnchorLayout,
     UIFlatButton,
-    UIGridLayout,
-    UIImage,
-    UIOnChangeEvent,
-    UITextureButton,
-    UITextureToggle,
-    UIView,
     UIManager,
     UIBoxLayout,
 )
@@ -27,7 +21,6 @@ font_name = "VMV Sega Genesis"
 click_cube_sound = arcade.load_sound("Assets/Sound/click_cube.wav")
 click_button_sound = arcade.load_sound("Assets/Sound/click_button.wav")
 victory = arcade.load_sound("Assets/Sound/victory.mp3")
-
 
 
 class RotatingSprite(arcade.Sprite):
@@ -95,15 +88,16 @@ class MyGUIWindow(arcade.Window):
                                    250,
                                    400)
         tutor_menu2 = SubMenuTutor(1.1, 1.5,
-                                   ["Наверху показаны все валюты, майнеры, цвета, которые понадобятся для прохождения игры."],
+                                   [
+                                       "Наверху показаны все валюты, майнеры, цвета, которые понадобятся для прохождения игры."],
                                    300,
                                    250)
         tutor_menu3 = SubMenuTutor(1, 0.4, ["Внизу есть 4 вкладки:",
-                                             "1: Miners - здесь можно купить майнеры - пасивный доход, указанный рядом с названием майнера",
-                                             "2: Clicks - улучшения на клик, чтобы клик стал сильнее. Также улучшения требуют особую валюту, "
-                                             "которую можно получить в 3 вкладке за обычные клики",
-                                             "3: Color - покупка особой валюты - цвета. Чтобы купить надо просто кликать.",
-                                             "4: Statistics - статистика всей игры "],
+                                            "1: Miners - здесь можно купить майнеры - пасивный доход, указанный рядом с названием майнера",
+                                            "2: Clicks - улучшения на клик, чтобы клик стал сильнее. Также улучшения требуют особую валюту, "
+                                            "которую можно получить в 3 вкладке за обычные клики",
+                                            "3: Color - покупка особой валюты - цвета. Чтобы купить надо просто кликать.",
+                                            "4: Statistics - статистика всей игры "],
                                    500,
                                    400)
         tutor_menu4 = SubMenuTutor(1.1, 1.5, ["Цель прохождения указана слево, удачи!"],
@@ -113,7 +107,6 @@ class MyGUIWindow(arcade.Window):
         self.manager.add(tutor_menu3)
         self.manager.add(tutor_menu2)
         self.manager.add(tutor_menu1)
-
 
     def setup_widgets(self):
         button1 = UIFlatButton(text="Miners", width=150, height=80, color=arcade.color.GHOST_WHITE)
@@ -136,35 +129,35 @@ class MyGUIWindow(arcade.Window):
         self.cube_sprite_list.update()
         self.cube_move(delta_time)
         self.text_score = arcade.Text(f"{convector(data.score)}", anchor_x="left", color=arcade.color.WHITE,
+                                      font_size=16,
+                                      font_name=font_name,
+                                      x=30,
+                                      y=1235,
+                                      batch=self.batch)
+        self.text_upg1 = arcade.Text(f"B:{convector(data.upgr11)}", anchor_x="left", color=arcade.color.WHITE,
                                      font_size=16,
                                      font_name=font_name,
-                                     x=30,
-                                     y=1235,
+                                     x=240,
+                                     y=1230,
                                      batch=self.batch)
-        self.text_upg1 = arcade.Text(f"B:{convector(data.upgr11)}", anchor_x="left", color=arcade.color.WHITE,
-                                    font_size=16,
-                                    font_name=font_name,
-                                    x=240,
-                                    y=1230,
-                                    batch=self.batch)
         self.text_upg2 = arcade.Text(f"KB:{convector(data.upgr12)}", anchor_x="left", color=arcade.color.WHITE,
-                                    font_size=16,
-                                    font_name=font_name,
-                                    x=240,
-                                    y=1167,
-                                    batch=self.batch)
+                                     font_size=16,
+                                     font_name=font_name,
+                                     x=240,
+                                     y=1167,
+                                     batch=self.batch)
         self.text_upg3 = arcade.Text(f"MB:{convector(data.upgr13)}", anchor_x="left", color=arcade.color.WHITE,
-                                    font_size=16,
-                                    font_name=font_name,
-                                    x=405,
-                                    y=1230,
-                                    batch=self.batch)
+                                     font_size=16,
+                                     font_name=font_name,
+                                     x=405,
+                                     y=1230,
+                                     batch=self.batch)
         self.text_upg4 = arcade.Text(f"GB:{convector(data.upgr14)}", anchor_x="left", color=arcade.color.WHITE,
-                                    font_size=16,
-                                    font_name=font_name,
-                                    x=405,
-                                    y=1167,
-                                    batch=self.batch)
+                                     font_size=16,
+                                     font_name=font_name,
+                                     x=405,
+                                     y=1167,
+                                     batch=self.batch)
         self.text_click = arcade.Text(
             f"{convector(1 + (2 * data.upgr21) + (5 * data.upgr22) + (12 * data.upgr23) +
                          (30 * data.upgr24))}/tap",
@@ -175,33 +168,33 @@ class MyGUIWindow(arcade.Window):
             y=1150,
             batch=self.batch)
         self.text_red = arcade.Text(f"R:{data.red}", anchor_x="left", color=arcade.color.WHITE,
-                                   font_size=16,
-                                   font_name=font_name,
-                                   x=595,
-                                   y=1233,
-                                   batch=self.batch
-                                   )
-        self.text_green = arcade.Text(f"G:{data.green}", anchor_x="left", color=arcade.color.WHITE,
-                                     font_size=16,
-                                     font_name=font_name,
-                                     x=595,
-                                     y=1173,
-                                     batch=self.batch
-                                     )
-        self.text_blue = arcade.Text(f"B:{data.blue}", anchor_x="left", color=arcade.color.WHITE,
                                     font_size=16,
                                     font_name=font_name,
                                     x=595,
-                                    y=1113,
+                                    y=1233,
                                     batch=self.batch
                                     )
-        self.text_white = arcade.Text(f"W:{data.white}", anchor_x="left", color=arcade.color.WHITE,
+        self.text_green = arcade.Text(f"G:{data.green}", anchor_x="left", color=arcade.color.WHITE,
+                                      font_size=16,
+                                      font_name=font_name,
+                                      x=595,
+                                      y=1173,
+                                      batch=self.batch
+                                      )
+        self.text_blue = arcade.Text(f"B:{data.blue}", anchor_x="left", color=arcade.color.WHITE,
                                      font_size=16,
                                      font_name=font_name,
                                      x=595,
-                                     y=1053,
+                                     y=1113,
                                      batch=self.batch
                                      )
+        self.text_white = arcade.Text(f"W:{data.white}", anchor_x="left", color=arcade.color.WHITE,
+                                      font_size=16,
+                                      font_name=font_name,
+                                      x=595,
+                                      y=1053,
+                                      batch=self.batch
+                                      )
         self.text_goal = arcade.Text("1M Bytes", anchor_x="left", color=arcade.color.WHITE,
                                      font_size=16,
                                      font_name=font_name,
@@ -266,9 +259,9 @@ class MyGUIWindow(arcade.Window):
         data.score += 300 * data.upgr14
         if data.score >= 1_000_000:
             text_win = SubMenuTutor(1.1, 1.5,
-                                   ["Поздравляю ты достиг цели!"],
-                                   300,
-                                   250)
+                                    ["Поздравляю ты достиг цели!"],
+                                    300,
+                                    250)
             data.score = 0
             self.flag = True
             self.manager.add(text_win)
@@ -280,7 +273,6 @@ class MyGUIWindow(arcade.Window):
                 arcade.close_window()
 
 
-
 def convector(num):
     num = float('{:.3g}'.format(num))
     magnitude = 0
@@ -290,14 +282,6 @@ def convector(num):
     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'),
                          ['', 'K', 'M', 'B', 'T', "qd", "qt", "st", "sp", "oc", "nn", "dc", "un", "dd", "td"]
                          [magnitude])
-
-
-SPARK_TEX = [
-    arcade.make_soft_circle_texture(8, arcade.color.PASTEL_YELLOW),
-    arcade.make_soft_circle_texture(8, arcade.color.PEACH),
-    arcade.make_soft_circle_texture(8, arcade.color.BABY_BLUE),
-    arcade.make_soft_circle_texture(8, arcade.color.ELECTRIC_CRIMSON),
-]
 
 
 def gravity_drag(p):  # Для искр: чуть вниз и затухание скорости
